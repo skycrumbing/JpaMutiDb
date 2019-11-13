@@ -7,7 +7,6 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
-@ServletComponentScan//@ServletComponentScan 这个使用来扫描@WebFilter 的让@WebFilter起作用
 public class JpademoApplication {
 
 	public static void main(String[] args) {

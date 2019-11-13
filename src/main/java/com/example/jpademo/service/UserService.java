@@ -27,10 +27,9 @@ public class UserService {
     UserRepository userRepository;
     @Transactional
     @TargetDataSource(dataSource = DataSourceConfig.WRITE_DATASOURCE_KEY)
-    public int changeName(String name, String newName) {
-        SysUser byNameByRead = findByName(name);
-        byNameByRead.setName(newName);
-        userRepository.save(byNameByRead);
+    public int changeName(SysUser user, String newName) {
+        user.setName(newName);
+        userRepository.save(user);
         return 0;
     }
 

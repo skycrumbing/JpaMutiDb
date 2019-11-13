@@ -51,6 +51,13 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<!--只在编译和测试的时候用-->
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>

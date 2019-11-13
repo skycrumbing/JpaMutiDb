@@ -3,6 +3,7 @@ package com.example.jpademo.api;
 import com.example.jpademo.config.base.BaseApi;
 import com.example.jpademo.config.base.Result;
 import com.example.jpademo.config.datasource.TargetDataSource;
+import com.example.jpademo.entity.SysUser;
 import com.example.jpademo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +29,18 @@ public class UserApi extends BaseApi{
         return success(userService.findByName(name));
     }
 
+    /**
+     * @Author tantao
+     * @Description 这边调用两个service方法，已经调用了AOP了，但是并没有切换数据源，可能是
+     * 这两次调用没有断开数据库的连接，所以选择的是第一个service数据源
+     * @Date 8:54 2019/11/13
+     * @param name
+     * @param newName
+     * @return com.example.jpademo.config.base.Result
+     */
     @RequestMapping("/changeName")
     public Result findByName(@RequestParam String name, @RequestParam String newName) {
-        return success(userService.changeName(name,newName));
+        SysUser byName = userService.findByName(name);
+        return success(userService.changeName(byName, newName));
     }
 }

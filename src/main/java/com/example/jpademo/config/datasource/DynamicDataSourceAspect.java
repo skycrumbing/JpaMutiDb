@@ -1,6 +1,7 @@
 package com.example.jpademo.config.datasource;
 
 import javassist.bytecode.SignatureAttribute;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -20,6 +21,7 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 @Order(1)
+@Slf4j
 public class DynamicDataSourceAspect {
     @Around("execution(public * com.example.jpademo.service..*.*(..))")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
@@ -27,7 +29,7 @@ public class DynamicDataSourceAspect {
         Method targetMethod = methodSignature.getMethod();
         if (targetMethod.isAnnotationPresent(TargetDataSource.class)) {
             String targetDataSource = targetMethod.getAnnotation(TargetDataSource.class).dataSource();
-            System.out.println("----------数据源是:" + targetDataSource + "------");
+            log.info("----------数据源是:" + targetDataSource + "------");
             DynamicDataSourceHolder.setDataSource(targetDataSource);
         }
         Object result = pjp.proceed();//执行方法
