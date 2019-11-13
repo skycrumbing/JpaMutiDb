@@ -5,7 +5,9 @@ import com.example.jpademo.config.base.Result;
 import com.example.jpademo.config.datasource.TargetDataSource;
 import com.example.jpademo.entity.SysUser;
 import com.example.jpademo.service.UserService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +26,7 @@ public class UserApi extends BaseApi{
     @Autowired
     UserService userService;
 
-    @RequestMapping("/findByName")
+    @GetMapping("/findByName")
     public Result findByName(@RequestParam String name) {
         return success(userService.findByName(name));
     }
@@ -38,7 +40,7 @@ public class UserApi extends BaseApi{
      * @param newName
      * @return com.example.jpademo.config.base.Result
      */
-    @RequestMapping("/changeName")
+    @GetMapping("/changeName")
     public Result findByName(@RequestParam String name, @RequestParam String newName) {
         SysUser byName = userService.findByName(name);
         return success(userService.changeName(byName, newName));
