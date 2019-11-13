@@ -49,6 +49,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.18</version>
 		</dependency>
 
 		<dependency>
@@ -56,6 +57,7 @@
 			<artifactId>lombok</artifactId>
 			<!--只在编译和测试的时候用-->
 			<scope>provided</scope>
+			<version>1.18.10</version>
 		</dependency>
 
 		<!-- Swagger -->
