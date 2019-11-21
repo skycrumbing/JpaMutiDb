@@ -7,11 +7,19 @@ import com.example.jpademo.entity.SysUser;
 import com.example.jpademo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ApplicationObjectSupport;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.Predicate;
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
+
+import static sun.audio.AudioDevice.device;
 
 /**
  * @ClassName: UserService
@@ -42,5 +50,32 @@ public class UserService {
         }else {
             throw new MessageException("无此用户");
         }
+    }
+
+    public Page<SysUser> findByPage(SysUser user, Pageable pageable) {
+        if (user == null) {
+            return userRepository.findAll(pageable);
+        }
+        //动态查询
+        Specification<SysUser> specification = (Specification<SysUser>) (root, criteriaQuery, cb) -> {
+            //存放查询条件
+            List<Predicate> predicatesList = new ArrayList<>();
+            //like模糊查询
+            String name = user.getName();
+            if (!StringUtils.isEmpty(name)) {
+                Predicate namePredicate = cb.like(root.get("name"), '%' + name + '%');
+                predicatesList.add(namePredicate);
+            }
+            Integer id = user.getId();
+            if (id != null) {
+                Predicate idPredicate = cb.equal(root.get("id"), id);
+                predicatesList.add(idPredicate);
+            }
+            //最终将查询条件拼好然后return
+            return cb.and(predicatesList.toArray(new Predicate[predicatesList.size()]));
+        };
+        Page<SysUser> all = userRepository.findAll(specification, pageable);
+        return all;
+
     }
 }

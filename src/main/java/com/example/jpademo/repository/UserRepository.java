@@ -4,6 +4,7 @@ import com.example.jpademo.config.datasource.DataSourceConfig;
 import com.example.jpademo.config.datasource.TargetDataSource;
 import com.example.jpademo.entity.SysUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @CreateDate: 2019/11/11 15:07
  * @Version: 1.0
  */
-public interface UserRepository extends JpaRepository<SysUser, Integer> {
+public interface UserRepository extends JpaRepository<SysUser, Integer>, JpaSpecificationExecutor<SysUser> {
     /**
      * @param name
      * @return java.util.List
